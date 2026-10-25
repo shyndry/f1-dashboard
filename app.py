@@ -1,6 +1,8 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 from src.data_loader import setup_cache, load_session
 from src.analysis import get_driver_laps, only_accurate
+from src.plots import plot_lap_times, plot_stints
 
 setup_cache("data/cache")
 
@@ -23,8 +25,16 @@ sessione = carica_sessione_cache(anno, gp, tipo)
 pilota_scelto = get_driver_laps(sessione, pilota)
 
 if accurate:
-    pilota_scelto_accurate = only_accurate(pilota_scelto)
-    st.dataframe(pilota_scelto_accurate[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
+    tabella= only_accurate(pilota_scelto)
 else:
-    st.dataframe(pilota_scelto[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
+    tabella = pilota_scelto
 
+st.dataframe(tabella[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
+
+fig = plot_lap_times({pilota: tabella}, f"Tempo sul giro di {pilota} a {gp}, anno {anno}")
+st.pyplot(fig)
+plt.close(fig)
+
+fig = plot_stints(pilota_scelto)
+st.pyplot(fig)
+plt.close(fig)

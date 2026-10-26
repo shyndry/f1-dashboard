@@ -15,31 +15,37 @@ st.title("Welcome to the F1 Dashboard, by Andrea Wloch")
 
 gp = st.selectbox("Gran Premio", ["Monza", "Monaco"])
 anno = st.selectbox("Anno", [2024])
-pilota = st.selectbox("Pilota", ["VER", "HAM", "LEC", "RUS"])
+piloti = st.multiselect("Piloti: ", ["HAM", "LEC", "VER", "RUS"], default = ["HAM", "LEC"])
 tipo = st.selectbox("Tipo", ["R", "Q"])
 accurate = st.checkbox("Mostra solo giri accurate")
  
-
-st.write(f"Selezionato: {gp}, {anno}, {pilota}, in modalità {tipo}")
+if not piloti:
+    st.warning("Non sono stati scelti piloti")
+    st.stop()
 
 try:
     sessione = carica_sessione_cache(anno, gp, tipo)
-    pilota_scelto = get_driver_laps(sessione, pilota)
+    giri_piloti = {}
+    for pilota in piloti:
+        giri = get_driver_laps(sessione, pilota)
+        if accurate:
+            giri = only_accurate(giri)
+        giri_piloti[pilota] = giri
 except DataNotLoadedError:
     st.error("Impossibile caricare i dati della sessione selezionata")
     st.stop()
 
-if accurate:
-    tabella= only_accurate(pilota_scelto)
-else:
-    tabella = pilota_scelto
-
-st.dataframe(tabella[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
-
-fig = plot_lap_times({pilota: tabella}, f"Tempo sul giro di {pilota} a {gp}, anno {anno}")
+fig = plot_lap_times(giri_piloti, f"Confronto dei tempi sul giro di {piloti} a {gp}, anno {anno}")
 st.pyplot(fig)
 plt.close(fig)
 
-fig = plot_stints(pilota_scelto)
-st.pyplot(fig)
-plt.close(fig)
+for pilota, giri in giri_piloti.items():
+    st.subheader(pilota)
+    if giri.empty:
+        st.warning("Non ci sono giri del pilota")
+        continue
+    st.dataframe(giri[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
+    fig = plot_stints(giri)
+    st.pyplot(fig)
+    plt.close(fig)
+

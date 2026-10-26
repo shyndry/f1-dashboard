@@ -44,6 +44,8 @@ for pilota, giri in giri_piloti.items():
     if giri.empty:
         st.warning("Non ci sono giri del pilota")
         continue
+    miglior_tempo = giri['LapTimeSec'].min()
+    st.metric("Miglior giro", f"{miglior_tempo:.3f} s")
     st.dataframe(giri[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
     fig = plot_stints(giri)
     st.pyplot(fig)

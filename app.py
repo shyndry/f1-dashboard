@@ -25,9 +25,19 @@ if not piloti:
 
 try:
     sessione = carica_sessione_cache(anno, gp, tipo)
+    primo_giro = int(sessione.laps['LapNumber'].min())
+    ultimo_giro = int(sessione.laps['LapNumber'].max())
+    giro_inizio, giro_fine = st.slider(
+        "Intervallo di giri",
+        min_value=primo_giro,
+        max_value=ultimo_giro,
+        value=(primo_giro, ultimo_giro)
+    )
     giri_piloti = {}
     for pilota in piloti:
         giri = get_driver_laps(sessione, pilota)
+        maschera = giri['LapNumber'].between(giro_inizio, giro_fine)
+        giri = giri[maschera].copy()
         if accurate:
             giri = only_accurate(giri)
         giri_piloti[pilota] = giri

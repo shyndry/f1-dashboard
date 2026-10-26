@@ -26,7 +26,7 @@ try:
     sessione = carica_sessione_cache(anno, gp, tipo)
     pilota_scelto = get_driver_laps(sessione, pilota)
 except DataNotLoadedError:
-    st.error("F1 ha limitato l’accesso all’archivio")
+    st.error("Impossibile caricare i dati della sessione selezionata")
     st.stop()
 
 if accurate:

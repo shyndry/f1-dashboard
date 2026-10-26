@@ -1,7 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from src.data_loader import setup_cache, load_session
-from src.analysis import get_driver_laps, only_accurate
+from src.analysis import get_driver_laps, only_accurate, filter_lap_range
 from src.plots import plot_lap_times, plot_stints
 from fastf1.exceptions import DataNotLoadedError
 
@@ -36,8 +36,7 @@ try:
     giri_piloti = {}
     for pilota in piloti:
         giri = get_driver_laps(sessione, pilota)
-        maschera = giri['LapNumber'].between(giro_inizio, giro_fine)
-        giri = giri[maschera].copy()
+        giri = filter_lap_range(giri, giro_inizio, giro_fine)
         if accurate:
             giri = only_accurate(giri)
         giri_piloti[pilota] = giri

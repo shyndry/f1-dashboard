@@ -10,3 +10,9 @@ def only_accurate(giri):
     '''Mantiene solo i giri con IsAccurate vero'''
     driver_acc = giri[giri["IsAccurate"]].copy()
     return driver_acc
+
+
+def filter_lap_range(giri, giro_inizio, giro_fine):
+    '''Restituisce una copia dei giri nell'intervallo, estremi inclusi'''
+    maschera = giri['LapNumber'].between(giro_inizio, giro_fine)
+    return giri[maschera].copy()

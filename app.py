@@ -46,6 +46,8 @@ for pilota, giri in giri_piloti.items():
         continue
     miglior_tempo = giri['LapTimeSec'].min()
     st.metric("Miglior giro", f"{miglior_tempo:.3f} s")
+    numero_giri = len(giri)
+    st.metric("Giri considerati: ", numero_giri)
     st.dataframe(giri[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
     fig = plot_stints(giri)
     st.pyplot(fig)

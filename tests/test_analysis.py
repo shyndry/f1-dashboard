@@ -1,5 +1,5 @@
 import pandas as pd
-from src.analysis import only_accurate, filter_lap_range
+from src.analysis import only_accurate, filter_lap_range, filter_compounds
 
 def test_only_accurate():
     '''Testing di only_accurate'''
@@ -33,4 +33,15 @@ def test_filter_lap_range_senza_giri():
     totale_giri1 = pd.DataFrame({'LapNumber': [1, 2, 3, 4, 5], })
     risultato = filter_lap_range(totale_giri1, 10, 20)
     assert risultato.empty
-    
+
+
+def test_filter_compounds_seleziona_mescole():
+    giri = pd.DataFrame({'LapNumber': [1, 2, 3, 4], 'Compound': ["SOFT", "HARD", "MEDIUM", "HARD"]})
+    risultato = filter_compounds(giri, ["HARD", "MEDIUM"])
+    assert risultato['LapNumber'].tolist() == [2, 3, 4]
+
+
+def test_filter_compounds_selezione_vuota():
+    giri = pd.DataFrame({'LapNumber': [1, 2, 3, 4], 'Compound': ["SOFT", "HARD", "MEDIUM", "HARD"]})
+    risultato = filter_compounds(giri, [])
+    assert risultato.empty

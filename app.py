@@ -1,7 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from src.data_loader import setup_cache, load_session
-from src.analysis import get_driver_laps, only_accurate, filter_lap_range
+from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds
 from src.plots import plot_lap_times, plot_stints
 from fastf1.exceptions import DataNotLoadedError
 
@@ -33,10 +33,16 @@ try:
         max_value=ultimo_giro,
         value=(primo_giro, ultimo_giro)
     )
+    mescole_disponibili = sessione.laps['Compound'].unique()
+    mescole_selezionate = st.multiselect("Mescole: ", mescole_disponibili, default = mescole_disponibili)
+    if not mescole_selezionate:
+        st.warning("Seleziona almeno una mescola")
+        st.stop()
     giri_piloti = {}
     for pilota in piloti:
         giri = get_driver_laps(sessione, pilota)
         giri = filter_lap_range(giri, giro_inizio, giro_fine)
+        giri = filter_compounds(giri, mescole_selezionate)
         if accurate:
             giri = only_accurate(giri)
         giri_piloti[pilota] = giri

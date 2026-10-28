@@ -15,16 +15,16 @@ st.title("Welcome to the F1 Dashboard, by Andrea Wloch")
 
 gp = st.selectbox("Gran Premio", ["Monza", "Monaco"])
 anno = st.selectbox("Anno", [2024])
-piloti = st.multiselect("Piloti: ", ["HAM", "LEC", "VER", "RUS"], default = ["HAM", "LEC"])
 tipo = st.selectbox("Tipo", ["R", "Q"])
 accurate = st.checkbox("Mostra solo giri accurate")
- 
-if not piloti:
-    st.warning("Non sono stati scelti piloti")
-    st.stop()
 
 try:
     sessione = carica_sessione_cache(anno, gp, tipo)
+    piloti_disponibili = sessione.laps['Driver'].unique()
+    piloti = st.multiselect("Piloti: ", piloti_disponibili)
+    if not piloti:
+        st.warning("Non sono stati scelti piloti")
+        st.stop()
     primo_giro = int(sessione.laps['LapNumber'].min())
     ultimo_giro = int(sessione.laps['LapNumber'].max())
     giro_inizio, giro_fine = st.slider(

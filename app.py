@@ -73,12 +73,19 @@ for pilota, giri in giri_piloti.items():
         continue
   
     col1, col2, col3 = st.columns(3)
-    miglior_tempo = giri['LapTimeSec'].min()
-    col1.metric("Miglior giro", f"{miglior_tempo:.3f} s")
+    tempi_validi = giri['LapTimeSec'].dropna()
+    if tempi_validi.empty:
+        col1.metric("Miglior giro", "N/D")
+    else:
+        miglior_tempo = tempi_validi.min()
+        col1.metric("Miglior giro", f"{miglior_tempo:.3f} s")
     numero_giri = len(giri)
     col2.metric("Giri considerati: ", numero_giri)
-    tempo_mediano = giri['LapTimeSec'].median()
-    col3.metric("Tempo mediano: ", f"{tempo_mediano:.3f} s")
+    if tempi_validi.empty:
+        col3.metric("Tempo mediano", "N/D")
+    else:
+        tempo_mediano = tempi_validi.median()
+        col3.metric("Tempo mediano", f"{tempo_mediano:.3f} s")
 
     tabella_export = giri[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']]
     st.dataframe(tabella_export)

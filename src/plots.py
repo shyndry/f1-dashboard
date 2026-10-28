@@ -4,6 +4,8 @@ def plot_lap_times(giri_piloti, titolo):
     '''Disegna il tempo sul giro di uno o più piloti nello stesso grafico'''
     fig, ax = plt.subplots()
     for nome, pilota in giri_piloti.items():
+        if pilota.empty:
+            continue
         ax.scatter(pilota["LapNumber"], pilota["LapTimeSec"], label = nome)
 
     ax.set_title(titolo)

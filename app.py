@@ -54,7 +54,15 @@ if all(giri.empty for giri in giri_piloti.values()):
     st.warning("Nessun giro disponibile con i filtri selezionati")
     st.stop()
 
-fig = plot_lap_times(giri_piloti, f"Confronto dei tempi sul giro di {piloti} a {gp}, anno {anno}")
+piloti_con_giri = []
+
+for pilota, giri in giri_piloti.items():
+    if not giri.empty:
+        piloti_con_giri.append(pilota)
+
+nomi_piloti = ", ".join(piloti_con_giri)
+
+fig = plot_lap_times(giri_piloti, f"Confronto dei tempi sul giro di {nomi_piloti} a {gp}, anno {anno}")
 st.pyplot(fig)
 plt.close(fig)
 

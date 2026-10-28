@@ -19,6 +19,6 @@ def filter_lap_range(giri, giro_inizio, giro_fine):
 
 
 def filter_compounds(giri, mescole_selezionate):
-    '''Restiuisce una copia dei giri con le mescole selezionate'''
+    '''Restituisce una copia dei giri con le mescole selezionate'''
     maschera_mescole = giri['Compound'].isin(mescole_selezionate)
     return giri[maschera_mescole].copy()

@@ -50,6 +50,10 @@ except DataNotLoadedError:
     st.error("Impossibile caricare i dati della sessione selezionata")
     st.stop()
 
+if all(giri.empty for giri in giri_piloti.values()):
+    st.warning("Nessun giro disponibile con i filtri selezionati")
+    st.stop()
+
 fig = plot_lap_times(giri_piloti, f"Confronto dei tempi sul giro di {piloti} a {gp}, anno {anno}")
 st.pyplot(fig)
 plt.close(fig)

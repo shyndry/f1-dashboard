@@ -79,8 +79,13 @@ for pilota, giri in giri_piloti.items():
     col2.metric("Giri considerati: ", numero_giri)
     tempo_mediano = giri['LapTimeSec'].median()
     col3.metric("Tempo mediano: ", f"{tempo_mediano:.3f} s")
-  
-    st.dataframe(giri[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']])
+
+    tabella_export = giri[['LapNumber', 'LapTimeSec', 'Compound', 'Stint', 'TyreLife']]
+    st.dataframe(tabella_export)
+    csv_dati = tabella_export.to_csv(index=False)
+    nome_file = f"{pilota}_{gp}_{anno}_{tipo}.csv"
+    st.download_button(label = "Scarica CSV", data = csv_dati, file_name = nome_file, mime = "text/csv")
+
     fig = plot_stints(giri)
     st.pyplot(fig)
     plt.close(fig)

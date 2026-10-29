@@ -16,6 +16,14 @@ Stato: in sviluppo (fase 3: Dashboard Streamlit).
 - Possibilità di leggere in maniera rapida, miglior tempo sul giro, numero di giri considerati e tempo mediano, calcolati sui dati filtrati.
 - Tabella riepilogativa che mostra mescola, primo e ultimo giro e numero di giri per stint. La tabella riguarda i dati dopo l'applicazione dei filtri. Può rappresentare solo una parte dello stint
 
+## Anteprima
+
+Gara di Monza 2024, con filtro dei giri accurati disattivato.
+
+![Confronto dei tempi sul giro tra LEC e HAM](docs/images/confronto-piloti.png)
+
+![Dettagli relativi al pilota](docs/images/dettaglio-pilota.png)
+
 ## Installazione e avvio
 
 Ambiente utilizzato: Windows, PowerShell e Python (3.13).

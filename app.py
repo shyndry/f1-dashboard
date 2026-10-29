@@ -74,7 +74,7 @@ plt.close(fig)
 for pilota, giri in giri_piloti.items():
     st.subheader(pilota)
     if giri.empty:
-        st.warning("Non ci sono giri del pilota")
+        st.warning(f"Nessun giro per {pilota} con i filtri selezionati")
         continue
   
     col1, col2, col3 = st.columns(3)

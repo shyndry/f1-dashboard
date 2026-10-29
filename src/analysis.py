@@ -1,3 +1,5 @@
+import pandas as pd
+
 def get_driver_laps(sessione, pilota):
     '''Ottiene i giri del pilota'''
     giri = sessione.laps
@@ -22,3 +24,15 @@ def filter_compounds(giri, mescole_selezionate):
     '''Restituisce una copia dei giri con le mescole selezionate'''
     maschera_mescole = giri['Compound'].isin(mescole_selezionate)
     return giri[maschera_mescole].copy()
+
+
+def summarize_stints(giri):
+    '''Riepiloga gli stint dei giri forniti, per un singolo pilota.'''
+    gruppi = giri.groupby('Stint')
+    primi_giri = gruppi['LapNumber'].min()
+    ultimi_giri = gruppi['LapNumber'].max()
+    numero_giri = gruppi.size()
+    mescole = gruppi['Compound'].first()
+    riepilogo = pd.DataFrame({'Compound': mescole, 'FirstLap': primi_giri, 'LastLap': ultimi_giri, 'LapCount': numero_giri })
+    riepilogo = riepilogo.reset_index()
+    return riepilogo

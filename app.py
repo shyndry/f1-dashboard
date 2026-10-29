@@ -1,7 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 from src.data_loader import setup_cache, load_session
-from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds
+from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds, summarize_stints
 from src.plots import plot_lap_times, plot_stints
 from fastf1.exceptions import DataNotLoadedError
 
@@ -92,6 +92,10 @@ for pilota, giri in giri_piloti.items():
     csv_dati = tabella_export.to_csv(index=False)
     nome_file = f"{pilota}_{gp}_{anno}_{tipo}.csv"
     st.download_button(label = "Scarica CSV", data = csv_dati, file_name = nome_file, mime = "text/csv")
+
+    st.write("Riepilogo stint sui giri filtrati")
+    riepilogo_stint = summarize_stints(giri)
+    st.dataframe(riepilogo_stint)
 
     fig = plot_stints(giri)
     st.pyplot(fig)

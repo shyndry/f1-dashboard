@@ -1,5 +1,5 @@
 import pandas as pd
-from src.analysis import only_accurate, filter_lap_range, filter_compounds
+from src.analysis import only_accurate, filter_lap_range, filter_compounds, summarize_stints
 
 def test_only_accurate():
     '''Testing di only_accurate'''
@@ -45,3 +45,13 @@ def test_filter_compounds_selezione_vuota():
     giri = pd.DataFrame({'LapNumber': [1, 2, 3, 4], 'Compound': ["SOFT", "HARD", "MEDIUM", "HARD"]})
     risultato = filter_compounds(giri, [])
     assert risultato.empty
+
+
+def test_summarize_stints_giri_non_consecutivi():
+    gruppo = pd.DataFrame({'LapNumber': [10, 11, 13, 14, 16], 'Stint' : [1, 1, 1, 2, 2], 'Compound' : ["MEDIUM", "MEDIUM", "MEDIUM", "HARD", "HARD"]})
+    risultato = summarize_stints(gruppo)
+    assert risultato['LapCount'].tolist() == [3, 2]
+    assert risultato['FirstLap'].tolist() == [10, 14]
+    assert risultato['LastLap'].tolist() == [13, 16]
+    assert risultato['Compound'].tolist() == ["MEDIUM", "HARD"]
+    assert risultato['Stint'].tolist() == [1, 2]

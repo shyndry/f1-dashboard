@@ -15,8 +15,13 @@ st.title("Welcome to the F1 Dashboard, by Andrea Wloch")
 
 gp = st.selectbox("Gran Premio", ["Monza", "Monaco"])
 anno = st.selectbox("Anno", [2024])
-tipo = st.selectbox("Tipo", ["R", "Q"])
-accurate = st.checkbox("Mostra solo giri accurate")
+
+nomi_sessioni = {"R": "Gara", "Q": "Qualifica"}
+def etichetta_sessione(codice):
+    return nomi_sessioni[codice]
+
+tipo = st.selectbox("Tipo", ["R", "Q"], format_func=etichetta_sessione)
+accurate = st.checkbox("Mostra solo giri accurati")
 
 try:
     sessione = carica_sessione_cache(anno, gp, tipo)

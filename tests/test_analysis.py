@@ -55,3 +55,11 @@ def test_summarize_stints_giri_non_consecutivi():
     assert risultato['LastLap'].tolist() == [13, 16]
     assert risultato['Compound'].tolist() == ["MEDIUM", "HARD"]
     assert risultato['Stint'].tolist() == [1, 2]
+
+
+def test_filtri_combinati():
+    giri = pd.DataFrame({'LapNumber': [9, 10, 11, 12, 13, 14], 'Compound': ["HARD", "HARD", "MEDIUM", "HARD", "HARD", "HARD"], 'IsAccurate': [True, True, True, False, True, True]})
+    risultato = filter_lap_range(giri, 10, 13)
+    risultato = filter_compounds(risultato, ["HARD"])
+    risultato = only_accurate(risultato)
+    assert risultato['LapNumber'].tolist() == [10, 13]

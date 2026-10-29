@@ -14,6 +14,7 @@ Stato: in sviluppo (fase 3: Dashboard Streamlit).
 - Visualizzazione dei dati sui giri in versione tabella e grafico.
 - Possibilità di scaricare le informazioni sui giri di un singolo pilota in formato CSV (Comma-Separated Values) dopo l'applicazione dei filtri.
 - Possibilità di leggere in maniera rapida, miglior tempo sul giro, numero di giri considerati e tempo mediano, calcolati sui dati filtrati.
+- Tabella riepilogativa che mostra mescola, primo e ultimo giro e numero di giri per stint. La tabella riguarda i dati dopo l'applicazione dei filtri. Può rappresentare solo una parte dello stint
 
 ## Installazione e avvio
 

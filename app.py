@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 from src.data_loader import setup_cache, load_session, load_schedule
@@ -42,6 +43,9 @@ ora_utc = datetime.now(timezone.utc).replace(tzinfo=None)
 accurate = st.checkbox("Mostra solo giri accurati")
 
 try:
+    if pd.isna(data_sessione):
+        st.warning("Data della sessione non disponibile nel calendario")
+        st.stop()
     if data_sessione > ora_utc:
         st.warning("La sessione selezionata non è ancora iniziata")
         st.stop()

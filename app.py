@@ -33,6 +33,9 @@ accurate = st.checkbox("Mostra solo giri accurati")
 
 try:
     sessione = carica_sessione_cache(anno, gp, tipo)
+    if sessione.laps.empty:
+        st.warning("Nessun giro disponibile per la sessione selezionata")
+        st.stop()
     piloti_disponibili = sessione.laps['Driver'].unique()
     piloti = st.multiselect("Piloti: ", piloti_disponibili)
     if not piloti:

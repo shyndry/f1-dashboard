@@ -24,11 +24,11 @@ except ValueError:
 
 gp = st.selectbox("Gran Premio", calendario['EventName'])
 
-nomi_sessioni = {"R": "Gara", "Q": "Qualifica"}
-def etichetta_sessione(codice):
-    return nomi_sessioni[codice]
+maschera = calendario['EventName'] == gp
+evento = calendario[maschera].iloc[0]
+sessioni_disponibili = evento[['Session1', 'Session2', 'Session3', 'Session4', 'Session5']].dropna()
 
-tipo = st.selectbox("Tipo", ["R", "Q"], format_func=etichetta_sessione)
+tipo = st.selectbox("Tipo", sessioni_disponibili)
 accurate = st.checkbox("Mostra solo giri accurati")
 
 try:

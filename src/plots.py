@@ -28,3 +28,13 @@ def plot_stints(giri):
     ax.set_ylabel("Tempo sul giro (s)")
     ax.legend()
     return fig
+
+
+def plot_speed_trace(telemetria, pilota):
+    '''Disegna la velocità del pilota in funzione della distanza percorsa.'''
+    fig, ax = plt.subplots()
+    ax.plot(telemetria['Distance'], telemetria['Speed'])
+    ax.set_xlabel("Distanza (m)")
+    ax.set_ylabel("Velocità (km/h)")
+    ax.set_title(f"Velocità di {pilota} in funzione della distanza percorsa")
+    return fig

@@ -75,5 +75,7 @@ python -m pytest
 ## Limiti attuali
 
 Per scaricare i dati delle sessioni, è necessario autenticarsi con un account F1 tramite FastF1. Nelle prove effettuate è stato possibile scaricare nuove sessioni senza un abbonamento F1 TV attivo. L’accesso ai dati non è stato verificato per tutte le sessioni. 
+
 La presenza di una sessione nel calendario non garantisce che i dati siano disponibili. L’applicazione impedisce il caricamento delle sessioni non ancora iniziate. 
+
 La cartella data/cache è esclusa dal repository: i dati delle sessioni vengono scaricati al primo caricamento e riutilizzati nei caricamenti successivi.

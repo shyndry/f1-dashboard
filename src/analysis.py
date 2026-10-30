@@ -36,3 +36,8 @@ def summarize_stints(giri):
     riepilogo = pd.DataFrame({'Compound': mescole, 'FirstLap': primi_giri, 'LastLap': ultimi_giri, 'LapCount': numero_giri })
     riepilogo = riepilogo.reset_index()
     return riepilogo
+
+
+def get_fastest_lap(giri):
+    '''Restituisce il giro più veloce idoneo oppure None se non disponibile.'''    
+    return giri.pick_fastest()

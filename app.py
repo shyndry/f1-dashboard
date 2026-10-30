@@ -2,8 +2,8 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 from src.data_loader import setup_cache, load_session, load_schedule
-from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds, summarize_stints
-from src.plots import plot_lap_times, plot_stints
+from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds, summarize_stints, get_fastest_lap
+from src.plots import plot_lap_times, plot_stints, plot_speed_trace
 from fastf1.exceptions import DataNotLoadedError
 from datetime import date, datetime, timezone
 
@@ -54,6 +54,24 @@ try:
         st.warning("Nessun giro disponibile per la sessione selezionata")
         st.stop()
     piloti_disponibili = sessione.laps['Driver'].unique()
+    st.header("Telemetria del giro più veloce")
+    pilota_telemetria = st.selectbox(label="Pilota per la telemetria", options=piloti_disponibili)
+    giri_telemetria = get_driver_laps(sessione, pilota_telemetria)
+    giro_veloce = get_fastest_lap(giri_telemetria)
+    if giro_veloce is None:
+        st.warning("Il pilota non ha un giro veloce idoneo")
+    else:
+        try:
+            telemetria = giro_veloce.get_car_data().add_distance()
+        except DataNotLoadedError:
+            st.error("Telemetria non disponibile per la sessione selezionata")
+        else:
+            if telemetria.empty:
+                st.warning("Dati della telemetria vuoti")
+            else:
+                fig = plot_speed_trace(telemetria, pilota_telemetria)
+                st.pyplot(fig)
+                plt.close(fig)
     piloti = st.multiselect("Piloti: ", piloti_disponibili)
     if not piloti:
         st.warning("Non sono stati scelti piloti")
@@ -133,4 +151,3 @@ for pilota, giri in giri_piloti.items():
     fig = plot_stints(giri)
     st.pyplot(fig)
     plt.close(fig)
-

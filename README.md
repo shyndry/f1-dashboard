@@ -50,6 +50,12 @@ Creare la cartella della cache:
 New-Item -ItemType Directory -Force data/cache
 ```
 
+Autenticarsi con un account F1 TV per scaricare le sessioni
+
+```powershell
+python -m fastf1 auth f1tv --authenticate
+```
+
 Avviare Streamlit:
 
 ```powershell
@@ -58,11 +64,11 @@ python -m streamlit run app.py
 
 ## Test
 
-Possibile effettuare il testing dalla cartella principale del progetto con l'ambiente virtuale attivo tramite il comando:
+I test utilizzano dati sintetici e non richiedono autenticazione né dati F1 scaricati. Possibile effettuare il testing dalla cartella principale del progetto con l'ambiente virtuale attivo tramite il comando:
 ```powershell
 python -m pytest
 ```
 
 ## Limiti attuali
 
-Le verifiche dell'applicazione software sono state svolte sulla gara di Monza 2024, disponibile sulla cache locale dello sviluppatore. data/cache è esclusa dalla repository, bisogna creare la cartella appositamente e scaricare le sessioni. Chiunque voglia scaricare l'applicazione non riceverà i dati sulla sessione precedentemente menzionata. L'applicativo software usa FastF1 3.8.3; l’aggiornamento e la configurazione dell’autenticazione non sono ancora stati integrati. I test svolti usano dati sintetici tramite chiamate a pandas e non richiedono la cache F1.
+Per scaricare i dati delle sessioni, è necessario autenticarsi con un account F1 tramite FastF1. Nelle prove effettuate è stato possibile scaricare nuove sessioni senza un abbonamento F1 TV attivo. L’accesso ai dati non è stato verificato per tutte le sessioni. La cartella data/cache è esclusa dal repository: i dati delle sessioni vengono scaricati al primo caricamento e riutilizzati nei caricamenti successivi.

@@ -23,7 +23,7 @@ cycler==0.12.1
 debugpy==1.8.22
 defusedxml==0.7.1
 executing==2.2.1
-fastf1==3.8.3
+fastf1==3.9.0
 fastjsonschema==2.22.2
 fonttools==4.66.1
 fqdn==1.6.0

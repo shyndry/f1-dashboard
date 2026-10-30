@@ -1,6 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
-from src.data_loader import setup_cache, load_session
+from src.data_loader import setup_cache, load_session, load_schedule
 from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds, summarize_stints
 from src.plots import plot_lap_times, plot_stints
 from fastf1.exceptions import DataNotLoadedError
@@ -13,8 +13,9 @@ def carica_sessione_cache(anno, gp, tipo):
 
 st.title("Welcome to the F1 Dashboard, by Andrea Wloch")
 
-gp = st.selectbox("Gran Premio", ["Monza", "Monaco"])
-anno = st.selectbox("Anno", [2024])
+anno = st.selectbox("Anno", [2024, 2023])
+calendario = load_schedule(anno)
+gp = st.selectbox("Gran Premio", calendario['EventName'])
 
 nomi_sessioni = {"R": "Gara", "Q": "Qualifica"}
 def etichetta_sessione(codice):

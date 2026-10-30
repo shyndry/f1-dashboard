@@ -10,3 +10,8 @@ def load_session(anno, gp, tipo):
     sessione = fastf1.get_session(anno, gp, tipo)
     sessione.load()
     return sessione
+
+
+def load_schedule(anno):
+    '''Restituisce il calendario dell'anno selezionato, esclusi i test prestagionali.'''
+    return fastf1.get_event_schedule(anno, include_testing = False)

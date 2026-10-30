@@ -12,12 +12,16 @@ setup_cache("data/cache")
 def carica_sessione_cache(anno, gp, tipo):
     return load_session(anno, gp, tipo)
 
+@st.cache_data(ttl=3600, show_spinner="Caricamento calendario...")
+def carica_calendario_cache(anno):
+    return load_schedule(anno)
+
 st.title("Welcome to the F1 Dashboard, by Andrea Wloch")
 
 anno = st.selectbox("Anno", list(range(2018, date.today().year + 1)))
 
 try:
-    calendario = load_schedule(anno)
+    calendario = carica_calendario_cache(anno)
     if calendario.empty:
         st.warning("Assenza di eventi per l'anno selezionato")
         st.stop()

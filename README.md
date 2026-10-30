@@ -9,6 +9,9 @@ Stato: in sviluppo (fase 3: Dashboard Streamlit).
 - Scegliere i dati della sessione che si vuole visualizzare.
 - Scegliere se vedere i giri accurati.
 - Selezione di più piloti e il confronto dei loro tempi sul giro nello stesso grafico.
+- Selezione dell'anno dal 2018 all'anno corrente.
+- Selezione di Gran Premi che dipendono dall'anno selezionato dall'utente.
+- Selezione dei tipi di sessione che dipendono dal Gran Premio scelto.
 - Filtrare la mescola delle gomme, possibilità di scegliere più mescole, tramite selezione.
 - Filtrare l'intervallo dei giri della gara, inclusi gli estremi, tramite slider.
 - Visualizzazione dei dati sui giri in versione tabella e grafico.
@@ -71,4 +74,6 @@ python -m pytest
 
 ## Limiti attuali
 
-Per scaricare i dati delle sessioni, è necessario autenticarsi con un account F1 tramite FastF1. Nelle prove effettuate è stato possibile scaricare nuove sessioni senza un abbonamento F1 TV attivo. L’accesso ai dati non è stato verificato per tutte le sessioni. La cartella data/cache è esclusa dal repository: i dati delle sessioni vengono scaricati al primo caricamento e riutilizzati nei caricamenti successivi.
+Per scaricare i dati delle sessioni, è necessario autenticarsi con un account F1 tramite FastF1. Nelle prove effettuate è stato possibile scaricare nuove sessioni senza un abbonamento F1 TV attivo. L’accesso ai dati non è stato verificato per tutte le sessioni. 
+La presenza di una sessione nel calendario non garantisce che i dati siano disponibili. L’applicazione impedisce il caricamento delle sessioni non ancora iniziate. 
+La cartella data/cache è esclusa dal repository: i dati delle sessioni vengono scaricati al primo caricamento e riutilizzati nei caricamenti successivi.

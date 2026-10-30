@@ -18,6 +18,9 @@ anno = st.selectbox("Anno", list(range(2018, date.today().year + 1)))
 
 try:
     calendario = load_schedule(anno)
+    if calendario.empty:
+        st.warning("Assenza di eventi per l'anno selezionato")
+        st.stop()
 except ValueError:
     st.error("Il calendario non è stato caricato correttamente")
     st.stop()

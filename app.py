@@ -4,7 +4,7 @@ from src.data_loader import setup_cache, load_session, load_schedule
 from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds, summarize_stints
 from src.plots import plot_lap_times, plot_stints
 from fastf1.exceptions import DataNotLoadedError
-from datetime import date
+from datetime import date, datetime, timezone
 
 setup_cache("data/cache")
 
@@ -36,9 +36,15 @@ evento = calendario[maschera].iloc[0]
 sessioni_disponibili = evento[['Session1', 'Session2', 'Session3', 'Session4', 'Session5']].dropna()
 
 tipo = st.selectbox("Tipo", sessioni_disponibili)
+data_sessione = evento.get_session_date(tipo, utc=True)
+ora_utc = datetime.now(timezone.utc).replace(tzinfo=None)
+
 accurate = st.checkbox("Mostra solo giri accurati")
 
 try:
+    if data_sessione > ora_utc:
+        st.warning("La sessione selezionata non è ancora iniziata")
+        st.stop()
     sessione = carica_sessione_cache(anno, gp, tipo)
     if sessione.laps.empty:
         st.warning("Nessun giro disponibile per la sessione selezionata")

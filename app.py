@@ -15,7 +15,13 @@ def carica_sessione_cache(anno, gp, tipo):
 st.title("Welcome to the F1 Dashboard, by Andrea Wloch")
 
 anno = st.selectbox("Anno", list(range(2018, date.today().year + 1)))
-calendario = load_schedule(anno)
+
+try:
+    calendario = load_schedule(anno)
+except ValueError:
+    st.error("Il calendario non è stato caricato correttamente")
+    st.stop()
+
 gp = st.selectbox("Gran Premio", calendario['EventName'])
 
 nomi_sessioni = {"R": "Gara", "Q": "Qualifica"}

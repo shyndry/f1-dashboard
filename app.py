@@ -54,24 +54,26 @@ try:
         st.warning("Nessun giro disponibile per la sessione selezionata")
         st.stop()
     piloti_disponibili = sessione.laps['Driver'].unique()
-    st.header("Telemetria del giro più veloce")
-    pilota_telemetria = st.selectbox(label="Pilota per la telemetria", options=piloti_disponibili)
-    giri_telemetria = get_driver_laps(sessione, pilota_telemetria)
-    giro_veloce = get_fastest_lap(giri_telemetria)
-    if giro_veloce is None:
-        st.warning("Il pilota non ha un giro veloce idoneo")
-    else:
-        try:
-            telemetria = giro_veloce.get_car_data().add_distance()
-        except DataNotLoadedError:
-            st.error("Telemetria non disponibile per la sessione selezionata")
+    mostra_telemetria = st.checkbox("Mostra la telemetria di un pilota")
+    if mostra_telemetria:
+        st.header("Telemetria del giro più veloce")
+        pilota_telemetria = st.selectbox(label="Pilota per la telemetria", options=piloti_disponibili)
+        giri_telemetria = get_driver_laps(sessione, pilota_telemetria)
+        giro_veloce = get_fastest_lap(giri_telemetria)
+        if giro_veloce is None:
+            st.warning("Il pilota non ha un giro veloce idoneo")
         else:
-            if telemetria.empty:
-                st.warning("Dati della telemetria vuoti")
+            try:
+                telemetria = giro_veloce.get_car_data().add_distance()
+            except DataNotLoadedError:
+                st.error("Telemetria non disponibile per la sessione selezionata")
             else:
-                fig = plot_speed_trace(telemetria, pilota_telemetria)
-                st.pyplot(fig)
-                plt.close(fig)
+                if telemetria.empty:
+                    st.warning("Dati della telemetria vuoti")
+                else:
+                    fig = plot_speed_trace(telemetria, pilota_telemetria)
+                    st.pyplot(fig)
+                    plt.close(fig)
     piloti = st.multiselect("Piloti: ", piloti_disponibili)
     if not piloti:
         st.warning("Non sono stati scelti piloti")

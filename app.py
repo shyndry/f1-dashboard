@@ -54,26 +54,37 @@ try:
         st.warning("Nessun giro disponibile per la sessione selezionata")
         st.stop()
     piloti_disponibili = sessione.laps['Driver'].unique()
-    mostra_telemetria = st.checkbox("Mostra la telemetria di un pilota")
+    mostra_telemetria = st.checkbox("Mostra il confronto telemetrico tra due piloti")
     if mostra_telemetria:
         st.header("Telemetria del giro più veloce")
-        pilota_telemetria = st.selectbox(label="Pilota per la telemetria", options=piloti_disponibili)
-        giri_telemetria = get_driver_laps(sessione, pilota_telemetria)
-        giro_veloce = get_fastest_lap(giri_telemetria)
-        if giro_veloce is None:
-            st.warning("Il pilota non ha un giro veloce idoneo")
+        piloti_telemetria = st.multiselect("Piloti per la telemetria: ", piloti_disponibili)
+        if len(piloti_telemetria) != 2:
+            st.warning("Seleziona esattamente due piloti per il confronto")
         else:
-            try:
-                telemetria = giro_veloce.get_car_data().add_distance()
-            except DataNotLoadedError:
-                st.error("Telemetria non disponibile per la sessione selezionata")
-            else:
-                if telemetria.empty:
-                    st.warning("Dati della telemetria vuoti")
+            telemetrie_piloti = {}
+            for pilota_telemetria in piloti_telemetria:
+                giri_telemetria = get_driver_laps(sessione, pilota_telemetria)
+                giro_veloce = get_fastest_lap(giri_telemetria)
+                if giro_veloce is None:
+                    st.warning(f"Il pilota non ha un giro veloce idoneo: {pilota_telemetria}")
                 else:
-                    fig = plot_speed_trace(telemetria, pilota_telemetria)
-                    st.pyplot(fig)
-                    plt.close(fig)
+                    try:
+                        telemetria = giro_veloce.get_car_data().add_distance()
+                    except DataNotLoadedError:
+                        st.error(f"Telemetria non disponibile per {pilota_telemetria}")
+                    else:
+                        if telemetria.empty:
+                            st.warning(f"Dati della telemetria vuoti di {pilota_telemetria}")
+                        else:
+                            telemetrie_piloti[pilota_telemetria] = telemetria
+            if len(telemetrie_piloti) == 2:
+                fig = plot_speed_trace(telemetrie_piloti)
+                st.pyplot(fig)
+                plt.close(fig)
+            else:
+                st.warning("Confronto non disponibile: servono dati validi per entrambi i piloti")
+
+        
     piloti = st.multiselect("Piloti: ", piloti_disponibili)
     if not piloti:
         st.warning("Non sono stati scelti piloti")

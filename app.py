@@ -57,11 +57,13 @@ try:
     mostra_telemetria = st.checkbox("Mostra il confronto telemetrico tra due piloti")
     if mostra_telemetria:
         st.header("Telemetria del giro più veloce")
+        st.caption("Il confronto usa i giri più veloci della sessione e non dipende dai filtri di intervallo, mescola e giri accurati dell’altra sezione.")
         piloti_telemetria = st.multiselect("Piloti per la telemetria: ", piloti_disponibili)
         if len(piloti_telemetria) != 2:
             st.warning("Seleziona esattamente due piloti per il confronto")
         else:
             telemetrie_piloti = {}
+            giri_veloci_piloti = {}
             for pilota_telemetria in piloti_telemetria:
                 giri_telemetria = get_driver_laps(sessione, pilota_telemetria)
                 giro_veloce = get_fastest_lap(giri_telemetria)
@@ -77,7 +79,11 @@ try:
                             st.warning(f"Dati della telemetria vuoti di {pilota_telemetria}")
                         else:
                             telemetrie_piloti[pilota_telemetria] = telemetria
+                            giri_veloci_piloti[pilota_telemetria] = giro_veloce
             if len(telemetrie_piloti) == 2:
+                for pilota, giro in giri_veloci_piloti.items():
+                    tempo_giro = giro['LapTime'].total_seconds()
+                    st.write(f"{pilota} — Giro {int(giro['LapNumber'])} — {tempo_giro:.3f} s")
                 fig = plot_speed_trace(telemetrie_piloti)
                 st.pyplot(fig)
                 plt.close(fig)

@@ -18,6 +18,7 @@ Stato: in sviluppo (fase 3: Dashboard Streamlit).
 - Possibilità di scaricare le informazioni sui giri di un singolo pilota in formato CSV (Comma-Separated Values) dopo l'applicazione dei filtri.
 - Possibilità di leggere in maniera rapida, miglior tempo sul giro, numero di giri considerati e tempo mediano, calcolati sui dati filtrati.
 - Tabella riepilogativa che mostra mescola, primo e ultimo giro e numero di giri per stint. La tabella riguarda i dati dopo l'applicazione dei filtri. Può rappresentare solo una parte dello stint
+- Confronto dei giri più veloci di due piloti selezionati, con grafici di velocità, acceleratore e freno in funzione della distanza percorsa.
 
 ## Anteprima
 
@@ -26,6 +27,12 @@ Gara di Monza 2024, con filtro dei giri accurati disattivato.
 ![Confronto dei tempi sul giro tra LEC e HAM](docs/images/confronto-piloti.png)
 
 ![Dettagli relativi al pilota](docs/images/dettaglio-pilota.png)
+
+![Telemetria velocità di due piloti](docs/images/telemetria-1.png)
+
+![Telemetria confronto dell'acceleratore](docs/images/telemetria-2.png)
+
+![Telemetria confronto del freno](docs/images/telemetria-3.png)
 
 ## Installazione e avvio
 

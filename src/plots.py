@@ -18,7 +18,7 @@ def plot_lap_times(giri_piloti, titolo):
 def plot_stints(giri):
     '''Disegna i giri di un solo pilota, con un colore per ogni stint'''
     fig, ax = plt.subplots()
-    stints = giri["Stint"].unique()
+    stints = giri["Stint"].dropna().unique()
     for s in stints:
         pilota_stint = giri[giri["Stint"] == s]
         ax.scatter(pilota_stint["LapNumber"], pilota_stint["LapTimeSec"], label = f"Stint {int(s)} - {pilota_stint['Compound'].iloc[0]}")

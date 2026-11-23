@@ -3,7 +3,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from src.data_loader import setup_cache, load_session, load_schedule
 from src.analysis import get_driver_laps, only_accurate, filter_lap_range, filter_compounds, summarize_stints, get_fastest_lap
-from src.plots import plot_lap_times, plot_stints, plot_speed_trace
+from src.plots import plot_lap_times, plot_stints, plot_speed_trace, plot_throttle_trace
 from fastf1.exceptions import DataNotLoadedError
 from datetime import date, datetime, timezone
 
@@ -85,6 +85,9 @@ try:
                     tempo_giro = giro['LapTime'].total_seconds()
                     st.write(f"{pilota} — Giro {int(giro['LapNumber'])} — {tempo_giro:.3f} s")
                 fig = plot_speed_trace(telemetrie_piloti)
+                st.pyplot(fig)
+                plt.close(fig)
+                fig = plot_throttle_trace(telemetrie_piloti)
                 st.pyplot(fig)
                 plt.close(fig)
             else:

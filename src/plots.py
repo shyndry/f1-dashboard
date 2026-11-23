@@ -40,3 +40,13 @@ def plot_speed_trace(telemetrie_piloti):
     ax.set_ylabel("Velocità (km/h)")
     ax.legend()
     return fig
+
+def plot_throttle_trace(telemetrie_piloti):
+    fig, ax = plt.subplots()
+    for pilota, telemetria in telemetrie_piloti.items():
+       ax.plot(telemetria['Distance'], telemetria['Throttle'], label = pilota)
+    ax.set_title("Confronto dell'acceleratore")
+    ax.set_xlabel("Distanza (m)")
+    ax.set_ylabel("Acceleratore (%)")
+    ax.legend()
+    return fig
